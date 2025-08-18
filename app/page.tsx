@@ -217,30 +217,6 @@ export default function CFCHomePage() {
           </div>
         </div>
 
-        {/* Contact Info */}
-        <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-xl space-y-3">
-          <h3 className="font-bold text-gray-800 mb-3">تواصل معنا</h3>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <Phone className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-sm text-gray-700 font-medium">+965 1828 111</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                <Mail className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-sm text-gray-700 font-medium">info@cfc-kw.com</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-                <MapPin className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-sm text-gray-700 font-medium">دولة الكويت</span>
-            </div>
-          </div>
-        </div>
 
         {/* Social Media & Apps */}
         <div className="flex justify-between items-center">
