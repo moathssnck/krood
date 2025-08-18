@@ -4,6 +4,11 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "شركة التسهيلات التجارية - CFC",
   description: "شركة التسهيلات التجارية الكويتية",
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  }
 }
 
 export default function RootLayout({
