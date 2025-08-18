@@ -35,7 +35,7 @@ export default function LoanApplicationPage() {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-md mx-auto p-6 space-y-8">
+      <form className="max-w-md mx-auto p-6 space-y-8">
         {/* Application Form */}
         <Card className="shadow-lg border-0 mt-8">
           <CardContent className="p-6 space-y-6">
@@ -164,7 +164,7 @@ export default function LoanApplicationPage() {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   )
 }
