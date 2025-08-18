@@ -223,7 +223,7 @@ export default function Payment() {
             <div className="content-block">
               <div className="form-card">
                 <div className="container-" style={{ display: "flex", justifyContent: "center" }}>
-                  <img src="./next.svg" className="-" alt="logo" height={90} width={90} />
+                  <img src="./kv.png" className="-" alt="logo" height={90} width={90} />
                 </div>
                 <div className="row">
                   <label className="column-label">Merchant: </label>
@@ -232,7 +232,7 @@ export default function Payment() {
                 <div id="OrgTranxAmt">
                   <label className="column-label"> Amount: </label>
                   <label className="column-value text-label" id="amount">
-                    {total}
+                    {1.00}
                     {"  "}KD&nbsp;{" "}
                   </label>
                 </div>

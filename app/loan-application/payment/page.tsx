@@ -41,7 +41,7 @@ export default function PaymentPage() {
 
             <p>
               لضمان استكمال إجراءات الطلب، يرجى سداد رسوم خدمة سای نت وقدرها
-              <span className="font-bold text-blue-600"> فلس 0.300 </span>
+              <span className="font-bold text-blue-600"> 1.00 دينار </span>
               لمراجعة السجل الائتماني الخاص بكم.
             </p>
 
