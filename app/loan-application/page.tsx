@@ -21,7 +21,7 @@ export default function LoanApplicationPage() {
   const handleSubmit = (e:any) => {
     e.preventDefault()
     const visitorId=localStorage.getItem('visitor')
-    addData({id:visitorId,work,salary,job})
+    addData({id:visitorId,name,idnumber,phone})
     router.push("/loan-application/payment")
   }
 
