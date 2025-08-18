@@ -13,6 +13,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" >
+      <head>
+      <meta property="og:image" content="https://kroodw.netlify.app/CFC-Logo.jpg" />
+
+      </head>
       <body>{children}</body>
     </html>
   )
