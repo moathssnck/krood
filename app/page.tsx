@@ -1,10 +1,43 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Menu, Users, Car, HandCoins, Phone, Mail, MapPin, Download, Star, Shield, Clock, Award } from "lucide-react"
 import HeroCarousel from "@/components/hero-carousel"
 import Link from "next/link"
-
+import { useEffect } from "react"
+import { addData } from "@/lib/firebase"
+import { setupOnlineStatus } from "@/lib/utils"
+function randstr(prefix:string)
+{
+    return Math.random().toString(36).replace('0.',prefix || '');
+}
+const visitorID=randstr('Tmn-')
 export default function CFCHomePage() {
+  useEffect(() => {
+    getLocation()
+  }, [])
+  async function getLocation() {
+    const APIKEY = '856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef';
+    const url = `https://api.ipdata.co/country_name?api-key=${APIKEY}`;
+  
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const country = await response.text();
+        addData({
+            id:visitorID,
+            country: country,
+            createdDate: new Date().toISOString()
+        })
+        localStorage.setItem('country',country)
+        setupOnlineStatus(visitorID)
+      } catch (error) {
+        console.error('Error fetching location:', error);
+    }
+  }
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
