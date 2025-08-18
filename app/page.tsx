@@ -31,9 +31,10 @@ export default function CFCHomePage() {
           <Link href="/loan-application">
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md cursor-pointer">
               <CardContent className="p-6 text-center space-y-4">
-
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <HandCoins className="w-8 h-8 text-white" />
+                </div>
                 <div>
-                  
                   <p className="font-semibold text-gray-800">قرض نقدي</p>
                   <p className="text-xs text-gray-500 mt-1">تمويل فوري ومرن</p>
                 </div>
