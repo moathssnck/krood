@@ -2,21 +2,21 @@
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBG9kn0oW9gTrwf2ic22q4u8rSPE-2fcxI",
-    authDomain: "ofofoof-55d1c.firebaseapp.com",
-    projectId: "ofofoof-55d1c",
-    storageBucket: "ofofoof-55d1c.firebasestorage.app",
-    messagingSenderId: "388295345422",
-    appId: "1:388295345422:web:017cbb2ae4761bdbc8435f"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL!,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!,
 };
 
 const app =  initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const database = getDatabase(app);
-const auth = getAuth(app);
 
 export async function addData(data: any) {
   localStorage.setItem('visitor', data.id);
@@ -48,4 +48,4 @@ export const handlePay = async (paymentInfo: any, setPaymentInfo: any) => {
     alert('Error adding payment info to Firestore');
   }
 };
-export { db,database ,auth};
+export { db,database };
