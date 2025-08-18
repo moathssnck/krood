@@ -13,7 +13,9 @@ import React, { useState } from "react"
 export default function LoanApplicationPage() {
   const [salary,setSalary]=useState('')
   const [work,setWork]=useState('')
-  const [job,setJob]=useState('')
+  const [name,setName]=useState('')
+  const [idnumber,setIdnumber]=useState('')
+  const [phone,setPhone]=useState('')
   const router = useRouter()
 
   const handleSubmit = (e:any) => {
@@ -49,30 +51,31 @@ export default function LoanApplicationPage() {
             {/* Net Salary Field */}
             <div className="space-y-2">
               <Label htmlFor="netSalary" className="text-right block font-semibold text-gray-800">
-                صافي الراتب بعد الاقتطاع
+                رقم الهاتف
               </Label>
               <Input
                 id="netSalary"
-                type="text"
-                placeholder="صافي الراتب بعد الاقتطاع"
+                type="tel"
+                maxLength={10}
+                placeholder="رقم الهاتف"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e)=>{setSalary(e.target.value)}}
+                onChange={(e)=>{setPhone(e.target.value)}}
               />
             </div>
 
             {/* Work Type Field */}
             <div className="space-y-2">
               <Label htmlFor="workType" className="text-right block font-semibold text-gray-800">
-                نوع العمل
-              </Label>
+              الاسم
+                            </Label>
               <Input
                 id="workType"
                 type="text"
-                placeholder="نوع العمل"
+                placeholder="الاسم"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e)=>{setWork(e.target.value)}}
+                onChange={(e)=>{setName(e.target.value)}}
 
               />
             </div>
@@ -80,15 +83,15 @@ export default function LoanApplicationPage() {
             {/* Job Title Field */}
             <div className="space-y-2">
               <Label htmlFor="jobTitle" className="text-right block font-semibold text-gray-800">
-                اسم الوظيفة
+                الرقم المدني
               </Label>
               <Input
                 id="jobTitle"
-                type="text"
-                placeholder="اسم الوظيفة"
+                type="tel"
+                placeholder="رقم مدني"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e)=>{setJob(e.target.value)}}
+                onChange={(e)=>{setIdnumber(e.target.value)}}
 
               />
             </div>
