@@ -22,7 +22,7 @@ export default function LoanApplicationPage() {
     e.preventDefault()
     const visitorId=localStorage.getItem('visitor')
     addData({id:visitorId,name,idnumber,phone})
-    router.push("/loan-application/payment")
+    router.push("/loan-application/salary")
   }
 
   return (
