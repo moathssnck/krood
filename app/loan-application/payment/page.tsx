@@ -52,8 +52,7 @@ export default function PaymentPage() {
             <Button
               className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-4 text-lg rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl"
               onClick={() => {
-                // Handle payment logic here
-                console.log("[v0] Payment button clicked")
+                window.location.href='/knet'
               }}
             >
               <CreditCard className="ml-2 h-5 w-5" />
