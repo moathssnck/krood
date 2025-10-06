@@ -1,7 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+* {
+  font-family: "Rubik", sans-serif;
+}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -15,8 +18,6 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
-
 
 @layer base {
   :root {
@@ -73,8 +74,6 @@
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {

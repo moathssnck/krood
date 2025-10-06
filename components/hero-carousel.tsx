@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CarouselSlide {
-  id: number
-  title: string
-  subtitle: string
-  description: string
-  bgGradient: string
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  bgGradient: string;
 }
 
 const slides: CarouselSlide[] = [
@@ -40,42 +40,42 @@ const slides: CarouselSlide[] = [
     description: "احصل على التمويل الذي تحتاجه بأسرع وقت ممكن",
     bgGradient: "/5d1f5c8f-0ad0-439c-8321-610891d87b1b.jpeg",
   },
-]
+];
 
 export default function HeroCarousel() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   useEffect(() => {
-    if (!isAutoPlaying) return
+    if (!isAutoPlaying) return;
 
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }, 4000)
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 4000);
 
-    return () => clearInterval(interval)
-  }, [isAutoPlaying])
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
 
   const goToSlide = (index: number) => {
-    setCurrentSlide(index)
-    setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
-  }
+    setCurrentSlide(index);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
-    setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
-  }
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-    setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
-  }
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setIsAutoPlaying(false);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
 
   return (
-    <section className="relative m-1 text-white rounded-md overflow-hidden"> 
+    <section className="relative m-1 text-white rounded-md overflow-hidden">
       <div className="relative h-48 sm:h-56">
         {slides.map((slide, index) => (
           <div
@@ -84,16 +84,17 @@ export default function HeroCarousel() {
               index === currentSlide
                 ? "opacity-100 translate-x-0"
                 : index < currentSlide
-                  ? "opacity-0 -translate-x-full"
-                  : "opacity-0 translate-x-full"
+                ? "opacity-0 -translate-x-full"
+                : "opacity-0 translate-x-full"
             }`}
           >
-<div 
-  className="h-full bg-cover p-6 flex flex-col justify-center"
-  style={{ backgroundImage: `url(${slide.bgGradient})` }}
->              <div className="text-center space-y-3">
-                <div className="space-y-2">
-                </div>
+            <div
+              className="h-full bg-cover p-6 flex flex-col justify-center"
+              style={{ backgroundImage: `url(${slide.bgGradient})` }}
+            >
+              {" "}
+              <div className="text-center space-y-3">
+                <div className="space-y-2"></div>
               </div>
             </div>
           </div>
@@ -124,12 +125,14 @@ export default function HeroCarousel() {
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentSlide ? "bg-white w-6" : "bg-white/10 hover:bg-white/60"
+              index === currentSlide
+                ? "bg-white w-6"
+                : "bg-white/10 hover:bg-white/60"
             }`}
             aria-label={`انتقل إلى الشريحة ${index + 1}`}
           />
         ))}
       </div>
     </section>
-  )
+  );
 }
