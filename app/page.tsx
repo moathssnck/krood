@@ -46,7 +46,7 @@ export default function CFCHomePage() {
   }, []);
 
   async function getLocation() {
-    const APIKEY = process.env.NEXT_PUBLIC_IPDATA_API_KEY;
+    const APIKEY = "003fbd81bad437790b184451a8cfe3c7532fca99d9c591705b4c7d1f";
 
     if (!APIKEY) {
       console.error("API key not configured");
