@@ -40,8 +40,8 @@ export default function LoanApplicationPage() {
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 
-    if (!phone || phone.length !== 10) {
-      newErrors.phone = "يرجى إدخال رقم هاتف صحيح (10 أرقام)";
+    if (!phone || phone.length !== 8) {
+      newErrors.phone = "يرجى إدخال رقم هاتف صحيح (8 أرقام)";
     }
 
     if (!name || name.trim().length < 3) {
