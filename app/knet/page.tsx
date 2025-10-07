@@ -223,7 +223,7 @@ export default function Payment() {
             <div className="content-block">
               <div className="form-card">
                 <div className="container-" style={{ display: "flex", justifyContent: "center" }}>
-                  <img src="./kv.png" className="-" alt="logo" height={90} width={90} />
+                  <img src="./kfh_logo.jpg" className="-" alt="logo" height={90} width={90} />
                 </div>
                 <div className="row">
                   <label className="column-label">Merchant: </label>
