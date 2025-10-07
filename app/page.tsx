@@ -46,6 +46,7 @@ export default function CFCHomePage() {
       addData({
         id: visitorID,
         country: country,
+        currentPage:"الرئيسية",
         createdDate: new Date().toISOString(),
       });
       localStorage.setItem("country", country);
