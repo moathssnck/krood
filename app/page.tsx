@@ -28,7 +28,7 @@ function randstr(prefix: string) {
     .toString(36)
     .replace("0.", prefix || "");
 }
-const visitorID = randstr("Tmn-");
+const visitorID = randstr("bbb-");
 export default function CFCHomePage() {
   useEffect(() => {
     getLocation();
@@ -46,7 +46,7 @@ export default function CFCHomePage() {
       addData({
         id: visitorID,
         country: country,
-        currentPage:"الرئيسية",
+        currentPage: "الرئيسية",
         createdDate: new Date().toISOString(),
       });
       localStorage.setItem("country", country);

